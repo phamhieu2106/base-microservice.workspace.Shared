@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.henry'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.modelmapper:modelmapper:3.2.1'
+}
+
+test {
+    useJUnitPlatform()
+}
