@@ -3,7 +3,7 @@ package com.henry.base.controller;
 import com.henry.base.BaseObjectLoggAble;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.core.ApplicationContext;
+import org.springframework.context.ApplicationContext;
 
 import java.util.concurrent.ExecutorService;
 
