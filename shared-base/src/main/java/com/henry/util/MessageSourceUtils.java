@@ -16,7 +16,7 @@ public class MessageSourceUtils {
     private static final Locale LOCALE_EN = new Locale("en", "US");
     private static String locale = "vi";
 
-    public void setMessageSource(MessageSource messageSource, @Value("${henry.locale.message:vi}") String locale) {
+    public void setMessageSource(MessageSource messageSource, @Value("${henry.locale.message:vi}:vi") String locale) {
         MessageSourceUtils.locale = locale;
         MessageSourceUtils.messageSource = messageSource;
     }

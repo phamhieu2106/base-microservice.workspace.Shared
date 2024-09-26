@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Sort {
+public class BaseSort {
     private String fieldName;
     private boolean decreasing = true;
 }

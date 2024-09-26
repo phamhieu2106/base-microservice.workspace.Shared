@@ -1,8 +1,13 @@
 package com.henry.base;
 
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class BaseObjectLoggAble {
-    protected Logger logger = Logger.getLogger(this.getClass().getName());
-    protected  Logger getLogger() {return this.logger;}
+    protected final transient Logger logger = LogManager.getLogger(this.getClass());
+
+    protected Logger getLogger() {
+        return this.logger;
+    }
 }
