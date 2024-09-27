@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "event")
 @Getter
@@ -15,9 +17,10 @@ public class EventEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String eventId;
-    private String eventType;
     private String entityId;
+    private String eventType;
     @Convert(converter = JDBCConverter.class)
-    @Column(columnDefinition = CustomJDBCType.JSONB)
+    @Column(columnDefinition = CustomJDBCType.JSON)
     private Object entityData;
+    private Date createdAt;
 }
