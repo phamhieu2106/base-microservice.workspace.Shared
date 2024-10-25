@@ -1,22 +1,44 @@
 package com.henry.base.exception.handler;
 
+import com.henry.base.BaseObjectLoggAble;
 import com.henry.base.exception.ServiceException;
 import com.henry.base.service.response.WrapResponse;
 import org.springframework.context.MessageSource;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends BaseObjectLoggAble {
 
     private final MessageSource messageSource;
 
     public GlobalExceptionHandler(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseBody
+    public WrapResponse<List<Map<String, String>>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        List<Map<String, String>> errors = new ArrayList<>();
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            Map<String, String> errorDetails = new HashMap<>();
+            errorDetails.put("field", error.getField());
+            errorDetails.put("reason", error.getDefaultMessage());
+            errors.add(errorDetails);
+        }
+        return WrapResponse.error(errors);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseBody
+    public WrapResponse<List<String>> handleMessageNotReadableException(HttpMessageNotReadableException ex) {
+        return WrapResponse.error(ex.getLocalizedMessage());
     }
 
     @ExceptionHandler(ServiceException.class)

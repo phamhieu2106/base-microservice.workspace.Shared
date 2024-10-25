@@ -10,11 +10,11 @@ import org.springframework.http.HttpStatus;
 @Builder
 public class WrapResponse<D> {
     private D data;
-    private String message;
+    private Object message;
     private boolean success;
     private Integer statusCode;
 
-    public static <T> WrapResponse<T> error(String msg) {
+    public static <T> WrapResponse<T> error(Object msg) {
         return WrapResponse.<T>builder()
                 .data(null)
                 .message(msg)
