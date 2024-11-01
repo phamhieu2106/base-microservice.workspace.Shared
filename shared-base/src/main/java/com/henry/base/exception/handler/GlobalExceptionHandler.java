@@ -3,6 +3,7 @@ package com.henry.base.exception.handler;
 import com.henry.base.BaseObjectLoggAble;
 import com.henry.base.exception.ServiceException;
 import com.henry.base.service.response.WrapResponse;
+import org.postgresql.util.PSQLException;
 import org.springframework.context.MessageSource;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -45,6 +46,12 @@ public class GlobalExceptionHandler extends BaseObjectLoggAble {
     @ResponseBody
     public WrapResponse<List<String>> handleServiceException(ServiceException ex) {
         return WrapResponse.error(getMessage(ex.getErrorCode()));
+    }
+
+    @ExceptionHandler(PSQLException.class)
+    @ResponseBody
+    public WrapResponse<List<String>> handlePSQLException(PSQLException ex) {
+        return WrapResponse.error(ex.getLocalizedMessage());
     }
 
     private String getMessage(String errorCode) {

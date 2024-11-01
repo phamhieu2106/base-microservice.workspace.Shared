@@ -16,10 +16,10 @@ public class ElasticsearchConfig {
     @Bean
     protected RestClient restClient() {
         return RestClient
-                .builder(new HttpHost("localhost", 9991, "http"))
+                .builder(new HttpHost("localhost", 9200, "http"))
                 .build();
     }
-
+    
     @Bean
     protected ElasticsearchTransport elasticsearchTransport() {
         return new RestClientTransport(

@@ -13,6 +13,10 @@ public class MappingUtils {
         return modelMapper.map(sourceObject, targetClass);
     }
 
+    public static <D> void mapObject(Object source, D des) {
+        modelMapper.map(source, des);
+    }
+
     public static <S, O> List<O> mapList(List<S> sources, Class<O> targetClass) {
         return sources.stream().map(
                 source -> modelMapper.map(source, targetClass)

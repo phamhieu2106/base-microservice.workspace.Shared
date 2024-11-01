@@ -9,6 +9,6 @@ import java.util.Date;
 @Getter
 @Setter
 public class BaseEvent implements Serializable {
-    private String actionUser = "guest";
+    protected String actionUser = "guest";
     private Date createdEventTime = new Date();
 }

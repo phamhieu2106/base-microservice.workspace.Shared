@@ -26,6 +26,7 @@ public class UserEntity extends BaseEntity {
     private String username;
     private String phoneNumber;
     private String email;
+    private String password;
     @Convert(converter = JDBCConverter.class)
     @Column(columnDefinition = CustomJDBCType.JSON)
     private List<GrantedAuthority> authorities;

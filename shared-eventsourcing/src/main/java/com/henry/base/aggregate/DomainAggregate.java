@@ -1,8 +1,8 @@
-package com.henry.base;
+package com.henry.base.aggregate;
 
 import com.henry.Aggregate;
 import com.henry.Command;
-import com.henry.Event;
+import com.henry.event.EventEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
@@ -10,17 +10,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
 
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class DomainAggregate<E extends Event, C extends Command> implements Aggregate {
+public abstract class DomainAggregate<A extends DomainAggregate<A, C>, C extends Command> implements Aggregate {
     protected final transient Logger logger = LogManager.getLogger(this.getClass());
 
     @Id
@@ -28,14 +24,14 @@ public abstract class DomainAggregate<E extends Event, C extends Command> implem
     private String id;
     @Column(length = 100)
     private String version;
-    @CreatedBy
     private String createdBy;
-    @CreatedDate
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Date createdDate;
-    @LastModifiedDate
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Date updatedDate;
-    @LastModifiedBy
     private String lastModifiedBy;
 
     protected abstract Class<?> loadRepositoryClazz();
+
+    public abstract EventEntity processCommand(C command);
 }

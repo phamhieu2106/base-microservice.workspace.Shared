@@ -1,5 +1,6 @@
 package com.henry.base.domain;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +14,10 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BaseEntity implements Serializable {
-    private Date createdAt;
-    private String createdBy;
-    private Date updatedAt;
-    private String updatedBy;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    protected Date createdAt;
+    protected String createdBy;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    protected Date updatedAt;
+    protected String updatedBy;
 }
