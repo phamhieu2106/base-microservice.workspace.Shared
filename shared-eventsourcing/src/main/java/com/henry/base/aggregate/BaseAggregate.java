@@ -39,7 +39,6 @@ public class BaseAggregate<A extends DomainAggregate<A, C>, C extends Command, R
                     .orElseThrow(() -> new ServiceException("EVENT_SOURCING.UPDATE_AGGREGATE", entityId));
             EventEntity event = aggregate.processCommand(command);
             aggregate.setVersion(eventRepository.save(event).getId());
-
             return repository.save(aggregate);
         } catch (Exception e) {
             getLogger().error(e.getMessage());

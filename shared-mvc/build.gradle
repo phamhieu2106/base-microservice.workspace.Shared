@@ -10,8 +10,8 @@ repositories {
 }
 
 dependencies {
-    implementation project(path: ":workspace:shared:shared-base")
-    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
 test {

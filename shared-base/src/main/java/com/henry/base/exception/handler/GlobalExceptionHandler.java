@@ -1,8 +1,8 @@
 package com.henry.base.exception.handler;
 
 import com.henry.base.BaseObjectLoggAble;
+import com.henry.base.domain.response.WrapResponse;
 import com.henry.base.exception.ServiceException;
-import com.henry.base.service.response.WrapResponse;
 import org.postgresql.util.PSQLException;
 import org.springframework.context.MessageSource;
 import org.springframework.http.converter.HttpMessageNotReadableException;

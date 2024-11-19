@@ -1,4 +1,4 @@
-package com.henry.base.service.view;
+package com.henry.base.domain.view;
 
 import java.io.Serializable;
 

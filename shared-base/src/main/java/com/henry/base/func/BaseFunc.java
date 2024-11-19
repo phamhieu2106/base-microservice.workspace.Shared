@@ -1,4 +1,4 @@
-package com.henry.base.service.func;
+package com.henry.base.func;
 
 import com.henry.base.BaseObjectLoggAble;
 

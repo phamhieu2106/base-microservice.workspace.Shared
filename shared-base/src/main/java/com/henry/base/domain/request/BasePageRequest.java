@@ -1,4 +1,4 @@
-package com.henry.base.service.request;
+package com.henry.base.domain.request;
 
 import lombok.Getter;
 import lombok.Setter;

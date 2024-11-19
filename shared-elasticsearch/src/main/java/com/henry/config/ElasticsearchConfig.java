@@ -9,7 +9,9 @@ import org.elasticsearch.client.RestClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
+@EnableElasticsearchRepositories()
 @Configuration
 public class ElasticsearchConfig {
 
@@ -19,7 +21,7 @@ public class ElasticsearchConfig {
                 .builder(new HttpHost("localhost", 9200, "http"))
                 .build();
     }
-    
+
     @Bean
     protected ElasticsearchTransport elasticsearchTransport() {
         return new RestClientTransport(

@@ -1,4 +1,4 @@
-package com.henry.base.service.response;
+package com.henry.base.domain.response;
 
 import lombok.Builder;
 import lombok.Getter;
