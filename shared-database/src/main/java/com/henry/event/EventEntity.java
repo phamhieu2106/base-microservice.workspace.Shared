@@ -1,7 +1,8 @@
 package com.henry.event;
 
 import com.henry.base.domain.BaseEntity;
-import com.henry.converter.JDBCConverter;
+import com.henry.constant.CustomJDBCType;
+import com.henry.converter.JDBCConverterToText;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,7 +20,8 @@ public class EventEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String entityId;
-    @Convert(converter = JDBCConverter.class)
+    @Column(columnDefinition = CustomJDBCType.TEXT)
+    @Convert(converter = JDBCConverterToText.class)
     private Object entityData;
     private String eventType;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")

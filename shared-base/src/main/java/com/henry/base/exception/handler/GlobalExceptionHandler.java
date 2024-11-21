@@ -30,7 +30,7 @@ public class GlobalExceptionHandler extends BaseObjectLoggAble {
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             Map<String, String> errorDetails = new HashMap<>();
             errorDetails.put("field", error.getField());
-            errorDetails.put("reason", error.getDefaultMessage());
+            errorDetails.put("reason", getMessage(error.getDefaultMessage()));
             errors.add(errorDetails);
         }
         return WrapResponse.error(errors);

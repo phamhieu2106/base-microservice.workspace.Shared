@@ -19,7 +19,7 @@ public class WrapResponse<D> {
                 .data(null)
                 .message(msg)
                 .success(false)
-                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .statusCode(HttpStatus.BAD_REQUEST.value())
                 .build();
     }
 
