@@ -1,20 +1,16 @@
 package com.henry.constant;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-@AllArgsConstructor
-public enum UserRole implements GrantedAuthority {
-    USER("USER"),
-    ADMIN("ADMIN");
+public class UserRole {
+    public static final int ADMIN = 0;
+    public static final int USER = 1;
 
-    private final String value;
-    private static final Map<UserRole, String> map;
+    private static final Map<Integer, String> map;
 
     static {
         map = new HashMap<>();
@@ -22,8 +18,4 @@ public enum UserRole implements GrantedAuthority {
         map.put(ADMIN, "ADMIN");
     }
 
-    @Override
-    public String getAuthority() {
-        return map.get(this);
-    }
 }

@@ -24,7 +24,7 @@ public class EventEntity extends BaseEntity {
     @Convert(converter = JDBCConverterToText.class)
     private Object entityData;
     private String eventType;
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    //    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     protected Date createdAt;
     protected String createdBy;
 

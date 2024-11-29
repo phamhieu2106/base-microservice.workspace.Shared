@@ -25,9 +25,7 @@ public abstract class DomainAggregate<A extends DomainAggregate<A, C>, C extends
     @Column(length = 100)
     private String version;
     private String createdBy;
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Date createdDate;
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Date updatedDate;
     private String lastModifiedBy;
 
