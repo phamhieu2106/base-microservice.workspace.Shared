@@ -1,0 +1,4 @@
+henry:
+  notification-server:
+    api: localhost:7003
+

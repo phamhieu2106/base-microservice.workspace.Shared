@@ -11,6 +11,8 @@ repositories {
 
 dependencies {
     implementation 'org.modelmapper:modelmapper:3.2.1'
+    implementation project(path: ":workspace:shared:shared-redis")
+
 }
 
 test {
