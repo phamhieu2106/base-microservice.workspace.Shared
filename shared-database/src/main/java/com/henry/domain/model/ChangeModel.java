@@ -11,7 +11,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ChangeModel extends BaseModel {
+    private String modelName;
     private String fieldName;
-    private String prevData;
-    private String currentData;
+    private Object action;
+    private Object prevData;
+    private Object currentData;
 }

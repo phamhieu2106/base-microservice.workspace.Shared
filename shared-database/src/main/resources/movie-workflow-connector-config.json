@@ -1,0 +1,21 @@
+{
+  "name": "movie-workflow-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "tasks.max": "1",
+    "database.hostname": "henry-postgres",
+    "database.port": "5432",
+    "database.user": "henry",
+    "database.password": "123456",
+    "database.dbname": "henry-event",
+    "database.server.id": "184054",
+    "table.include.list": "movie_event.event_entity",
+    "plugin.name": "pgoutput",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "snapshot.mode": "initial",
+    "topic.prefix": "workflow"
+  }
+}

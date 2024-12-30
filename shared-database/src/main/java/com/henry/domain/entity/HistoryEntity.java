@@ -1,6 +1,6 @@
 package com.henry.domain.entity;
 
-import com.henry.constant.CustomJDBCType;
+import com.henry.constant.JDBCCustomType;
 import com.henry.domain.model.ChangeModel;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,7 +30,7 @@ public class HistoryEntity {
     private Integer type;
     private String content;
     private Date createdDate;
-    @Column(columnDefinition = CustomJDBCType.JSON)
+    @Column(columnDefinition = JDBCCustomType.JSON)
     @JdbcTypeCode(SqlTypes.JSON)
     private List<ChangeModel> _changes;
 }

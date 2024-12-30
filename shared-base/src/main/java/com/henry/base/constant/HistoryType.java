@@ -9,6 +9,7 @@ public class HistoryType {
     public static final int BLOCK = -1;
     public static final int DELETE = 0;
     public static final int AUTO_UPDATE = 3;
+    public static final int ADD = 4;
 
     public static Map<Integer, String> historyTypeMap;
 
@@ -18,6 +19,7 @@ public class HistoryType {
         historyTypeMap.put(UPDATE, "UPDATED");
         historyTypeMap.put(BLOCK, "BLOCKED");
         historyTypeMap.put(DELETE, "DELETED");
-        historyTypeMap.put(AUTO_UPDATE, "AUTO_UPDATED");
+        historyTypeMap.put(AUTO_UPDATE, "SYSTEM_AUTO_UPDATED");
+        historyTypeMap.put(ADD, "ADDED");
     }
 }

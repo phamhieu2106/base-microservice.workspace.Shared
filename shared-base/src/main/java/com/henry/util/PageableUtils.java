@@ -1,9 +1,7 @@
 package com.henry.util;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import com.henry.base.domain.request.BaseSort;
+import org.springframework.data.domain.*;
 
 import java.util.List;
 
@@ -11,6 +9,22 @@ public class PageableUtils {
 
     public static Pageable convertToPageable(int pageNumber, int pageSize) {
         return PageRequest.of(pageNumber, pageSize);
+    }
+
+    public static Pageable convertToPageable(int pageNumber, int pageSize, List<BaseSort> sorts) {
+        Sort sort = Sort.unsorted();
+
+        if (sorts != null && !sorts.isEmpty()) {
+            Sort.Order[] orders = sorts.stream()
+                    .map(baseSort -> new Sort.Order(
+                            baseSort.isDecreasing() ? Sort.Direction.DESC : Sort.Direction.ASC,
+                            baseSort.getField()
+                    ))
+                    .toArray(Sort.Order[]::new);
+            sort = Sort.by(orders);
+        }
+
+        return PageRequest.of(pageNumber, pageSize, sort);
     }
 
     public static <R> Page<R> convertPageToPageResponse(Page<?> page, Class<R> clazzResponse) {
