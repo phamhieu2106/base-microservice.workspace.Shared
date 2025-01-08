@@ -6,4 +6,5 @@ public class WorkflowTopic {
 
     //topic
     public static final String AUTH_EVENT_TOPIC = "workflow.auth_event.event_entity";
+    public static final String MOVIE_EVENT_TOPIC = "workflow.movie_event.event_entity";
 }

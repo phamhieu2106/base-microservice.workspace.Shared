@@ -3,34 +3,29 @@ package com.henry.domain.entity;
 import com.henry.constant.JDBCCustomType;
 import com.henry.domain.model.ChangeModel;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.util.Date;
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@MappedSuperclass
 @Getter
 @Setter
-@Entity
-@Table(
-        indexes = {
-                @Index(name = "entityId_idx", columnList = "entityId")
-        })
-@Builder
 public class HistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String entityId;
-    private String entityCode;
-    private String entityName;
-    private Integer type;
-    private String content;
-    private Date createdDate;
+    protected String entityId;
+    protected String entityCode;
+    protected String entityName;
+    protected Integer type;
+    protected String typeName;
+    protected String content;
+    protected Date createdDate;
     @Column(columnDefinition = JDBCCustomType.JSON)
     @JdbcTypeCode(SqlTypes.JSON)
-    private List<ChangeModel> _changes;
+    protected List<ChangeModel> _changes;
 }
