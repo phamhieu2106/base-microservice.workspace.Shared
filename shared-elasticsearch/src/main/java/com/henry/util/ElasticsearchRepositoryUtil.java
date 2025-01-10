@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class ElasticsearchRepository {
+public class ElasticsearchRepositoryUtil {
 
     private final ElasticsearchTemplate elasticsearchTemplate;
 
