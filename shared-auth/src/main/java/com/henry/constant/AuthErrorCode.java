@@ -2,6 +2,8 @@ package com.henry.constant;
 
 public class AuthErrorCode {
     //PERMISSION
+    public static final String INVALID_TOKEN = "AUTH.INVALID_TOKEN";
+
     public static final String DONT_HAVE_PERMISSION = "AUTH.DONT_HAVE_PERMISSION";
 
     //AUTH

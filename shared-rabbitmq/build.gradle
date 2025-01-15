@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(path: ":workspace:shared:shared-base")
+    implementation project(path: ":workspace:1-shared:shared-base")
 
 
     implementation 'org.springframework.boot:spring-boot-starter-amqp'

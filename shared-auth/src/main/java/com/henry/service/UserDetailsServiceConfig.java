@@ -8,16 +8,16 @@ import com.henry.model.CustomUserDetails;
 import com.henry.response.UserDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@Configuration
+@Service
 @RequiredArgsConstructor
 public class UserDetailsServiceConfig implements UserDetailsService {
 
@@ -36,7 +36,7 @@ public class UserDetailsServiceConfig implements UserDetailsService {
         CustomUserDetails userDetails = new CustomUserDetails();
         userDetails.setUsername(username);
         userDetails.setAuthorities(userDetail.getAuthorities().stream()
-                .map(SimpleGrantedAuthority::new) // Add ROLE_ prefix
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList()));
         userDetails.setPassword(userDetail.getPassword());
         userDetails.setStatus(userDetail.getStatus());

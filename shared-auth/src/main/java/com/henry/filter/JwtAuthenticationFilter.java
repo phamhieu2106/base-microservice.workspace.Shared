@@ -1,5 +1,7 @@
 package com.henry.filter;
 
+import com.henry.base.exception.ServiceException;
+import com.henry.constant.AuthErrorCode;
 import com.henry.service.UserDetailsServiceConfig;
 import com.henry.util.JwtUtil;
 import jakarta.servlet.FilterChain;
@@ -29,8 +31,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
-        String authorizationHeader = request.getHeader("Authorization");
+        logger.debug(">>>>>> Processing filter for URI: " + request.getRequestURI());
 
+        String authorizationHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
 
@@ -41,15 +44,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if (jwtUtil.validateToken(token, userDetails)) {
-                UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                logger.debug(">>>>>> doFilterInternal: Authentication Set: " + authenticationToken);
+            if (!jwtUtil.validateToken(token, userDetails)) {
+                throw new ServiceException(AuthErrorCode.INVALID_TOKEN);
             }
+            SecurityContextHolder.getContext().setAuthentication(new
+                    UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
         }
 
         filterChain.doFilter(request, response);
     }
+
+
 }
 

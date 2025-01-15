@@ -5,6 +5,7 @@ import com.henry.base.domain.response.WrapResponse;
 import com.henry.base.exception.ServiceException;
 import org.postgresql.util.PSQLException;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -55,6 +56,10 @@ public class GlobalExceptionHandler extends BaseObjectLoggAble {
     }
 
     private String getMessage(String errorCode) {
-        return messageSource.getMessage(errorCode, null, Locale.forLanguageTag("")); //already locale in config
+        try {
+            return messageSource.getMessage(errorCode, null, Locale.forLanguageTag("")); //already locale in config
+        } catch (NoSuchMessageException ex) {
+            return errorCode;
+        }
     }
 }
