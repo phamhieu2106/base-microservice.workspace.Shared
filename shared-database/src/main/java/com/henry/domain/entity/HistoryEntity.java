@@ -25,6 +25,7 @@ public class HistoryEntity {
     protected String typeName;
     protected String content;
     protected Date createdDate;
+    protected String createdBy;
     @Column(columnDefinition = JDBCCustomType.JSON)
     @JdbcTypeCode(SqlTypes.JSON)
     protected List<ChangeModel> _changes;

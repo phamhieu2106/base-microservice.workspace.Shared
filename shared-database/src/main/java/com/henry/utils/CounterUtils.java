@@ -6,6 +6,7 @@ import com.henry.repository.CounterRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -15,12 +16,14 @@ import java.util.Date;
 public class CounterUtils {
     private final CounterRepository counterRepository;
 
+
     /**
      * @param clazz:     Aggregate.class
      * @param digitType: @{@link DigitType}
      * @param prefix:    prefixCode
      * @return String as a code of Entity like "M000001" base on current Year reset counter each Year
      */
+    @Transactional(rollbackFor = Exception.class)
     public String generateCode(Class<?> clazz, String digitType, String prefix) {
         CounterEntity counter = counterRepository.findByCode(clazz.getSimpleName()).orElse(null);
 

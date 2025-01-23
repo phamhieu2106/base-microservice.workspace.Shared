@@ -13,6 +13,8 @@ dependencies {
     implementation 'org.modelmapper:modelmapper:3.2.1'
     implementation project(path: ":workspace:1-shared:shared-redis")
 
+    implementation 'org.apache.poi:poi-ooxml:5.4.0'
+    implementation 'org.apache.xmlbeans:xmlbeans:5.1.1'
 }
 
 test {
