@@ -1,10 +1,10 @@
 package com.henry.event;
 
-import com.henry.base.domain.BaseEntity;
 import com.henry.constant.JDBCCustomType;
-import com.henry.converter.JDBCConverterToText;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.Date;
 
@@ -15,13 +15,13 @@ import java.util.Date;
 @Table
 @Entity
 @Builder
-public class EventEntity extends BaseEntity {
+public class EventEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String entityId;
-    @Column(columnDefinition = JDBCCustomType.TEXT)
-    @Convert(converter = JDBCConverterToText.class)
+    @Column(columnDefinition = JDBCCustomType.JSON)
+    @JdbcTypeCode(value = SqlTypes.JSON)
     private Object entityData;
     private String eventType;
     protected Date createdAt;
@@ -35,7 +35,6 @@ public class EventEntity extends BaseEntity {
                 .eventType(eventType)
                 .build();
         event.setCreatedAt(now);
-        event.setUpdatedAt(now);
         event.setCreatedBy(actionUser);
         return event;
     }

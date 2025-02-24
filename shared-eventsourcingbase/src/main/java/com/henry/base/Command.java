@@ -1,4 +1,4 @@
-package com.henry;
+package com.henry.base;
 
 import java.io.Serializable;
 

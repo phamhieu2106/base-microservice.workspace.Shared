@@ -1,7 +1,7 @@
 package com.henry.base.aggregate;
 
-import com.henry.Aggregate;
-import com.henry.Command;
+import com.henry.base.Aggregate;
+import com.henry.base.Command;
 import com.henry.event.EventEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;

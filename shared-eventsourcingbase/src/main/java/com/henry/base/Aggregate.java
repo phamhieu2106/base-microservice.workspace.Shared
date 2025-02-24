@@ -1,4 +1,4 @@
-package com.henry;
+package com.henry.base;
 
 public interface Aggregate {
 }

@@ -11,8 +11,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 public class HistoryUtils<E extends HistoryEntity, R extends JpaRepository<E, String>> extends BaseObjectLoggAble {
@@ -32,7 +34,7 @@ public class HistoryUtils<E extends HistoryEntity, R extends JpaRepository<E, St
 
     public void saveHistoryWithChanges(String entityId, String entityCode, Class<?> changeClazz, Class<?> clazz,
                                        Integer historyType, String content, Object changeObject, Object currentObject) {
-        List<String> objectFieldNames = getAllFieldNames(changeClazz);
+        List<String> objectFieldNames = ReflectionUtils.getAllFieldNames(changeClazz);
         List<ChangeModel> _changes = new ArrayList<>();
 
         handleGetChanges(_changes, objectFieldNames, changeObject, currentObject, changeClazz, clazz, null);
@@ -65,8 +67,8 @@ public class HistoryUtils<E extends HistoryEntity, R extends JpaRepository<E, St
         if (CollectionUtils.isNotEmpty(objectFieldNames)
                 && (ObjectUtils.isNotEmpty(changeObject) || ObjectUtils.isNotEmpty(currentObject))) {
             objectFieldNames.forEach(fieldName -> {
-                Object prevData = getFieldValue(currentObject, clazz, fieldName);
-                Object currentData = getFieldValue(changeObject, changeClazz, fieldName);
+                Object prevData = ReflectionUtils.getFieldValue(currentObject, clazz, fieldName);
+                Object currentData = ReflectionUtils.getFieldValue(changeObject, changeClazz, fieldName);
                 if ((ObjectUtils.isEmpty(prevData) && ObjectUtils.isEmpty(currentData)) ||
                         Objects.equals(prevData, currentData)) {
                     return;
@@ -86,7 +88,7 @@ public class HistoryUtils<E extends HistoryEntity, R extends JpaRepository<E, St
 
     private void handleAddChangeForModel(List<ChangeModel> _changes, String modelName, Class<?> clazz,
                                          Object changeObject, Object currentObject) {
-        List<String> fieldNames = getAllFieldNames(clazz);
+        List<String> fieldNames = ReflectionUtils.getAllFieldNames(clazz);
         handleGetChanges(_changes, fieldNames, currentObject, changeObject, Objects.isNull(changeObject) ? currentObject.getClass() : changeObject.getClass(),
                 currentObject.getClass(), modelName);
     }
@@ -104,33 +106,5 @@ public class HistoryUtils<E extends HistoryEntity, R extends JpaRepository<E, St
         _changes.add(change);
     }
 
-    private Object getFieldValue(Object object, Class<?> clazz, String fieldName) {
-        if (Objects.isNull(object)) {
-            return null;
-        }
-        Field[] fields = clazz.getDeclaredFields();
-        Field field = Arrays.stream(fields)
-                .filter(f -> f.getName().equals(fieldName))
-                .findFirst()
-                .orElse(null);
-        if (ObjectUtils.isNotEmpty(field)) {
-            field.setAccessible(true);
-            try {
-                return field.get(object);
-            } catch (IllegalAccessException e) {
-                logger.error(">>> IllegalAccessException: getFieldValue HistoryUtils: not found value for field: {}", fieldName);
-            }
-        }
-        return null;
-    }
 
-    private List<String> getAllFieldNames(Class<?> clazz) {
-        if (Objects.isNull(clazz)) {
-            return Collections.emptyList();
-        }
-        Field[] fields = clazz.getDeclaredFields();
-        return Arrays.stream(fields)
-                .map(Field::getName)
-                .toList();
-    }
 }
