@@ -12,7 +12,9 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table
+@Table(name = "events", indexes = {
+        @Index(name = "entityId_eventType_createdAt_idx", columnList = "entityId, eventType, createdAt")
+})
 @Entity
 @Builder
 public class EventEntity {
