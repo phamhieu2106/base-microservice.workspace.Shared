@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     implementation project(path: ":workspace:1-shared:shared-base")
-    implementation project(path: ':workspace:1-shared:shared-database', configuration: 'default')
+//    implementation project(path: ':workspace:1-shared:shared-database', configuration: 'default')
 
     //JWT
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Component
-@FeignClient(name = "auth-query", path = "internal/api/auth-query", url = "${henry.auth-query.api}")
+@FeignClient(name = "auth-query", path = "internal/api/auth-query", url = "${henry.auth-query.api:}")
 public interface InternalAuthQueryApi {
 
     @GetMapping("/users/exit-by-username/{username}")

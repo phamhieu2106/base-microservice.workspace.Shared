@@ -31,4 +31,13 @@ public class WrapResponse<D> {
                 .statusCode(HttpStatus.OK.value())
                 .build();
     }
+
+    public static <T> WrapResponse<T> response(Integer statusCode, String message) {
+        return WrapResponse.<T>builder()
+                .data(null)
+                .message(message)
+                .success(false)
+                .statusCode(statusCode)
+                .build();
+    }
 }

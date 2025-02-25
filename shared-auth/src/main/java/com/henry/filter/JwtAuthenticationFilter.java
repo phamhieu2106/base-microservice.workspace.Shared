@@ -1,17 +1,14 @@
 package com.henry.filter;
 
-import com.henry.base.exception.ServiceException;
-import com.henry.constant.AuthErrorCode;
-import com.henry.service.UserDetailsServiceConfig;
 import com.henry.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,39 +18,37 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final UserDetailsServiceConfig userDetailsService;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil, UserDetailsServiceConfig userDetailsService) {
+    public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        this.userDetailsService = userDetailsService;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
         logger.debug(">>>>>> Processing filter for URI: " + request.getRequestURI());
+        if (jwtUtil.isInvalidToken(getTokenFromRequest(request))) {
+            filterChain.doFilter(request, response);
+        }
+        String username = request.getHeader("X-User-Name");
 
-        String authorizationHeader = request.getHeader("Authorization");
-        String token = null;
-        String username = null;
+        if (username != null) {
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(username, null, null);
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            token = authorizationHeader.substring(7);
-            username = jwtUtil.extractUsername(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if (!jwtUtil.validateToken(token, userDetails)) {
-                throw new ServiceException(AuthErrorCode.INVALID_TOKEN);
-            }
-            SecurityContextHolder.getContext().setAuthentication(new
-                    UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
-        }
 
         filterChain.doFilter(request, response);
     }
 
-
+    private String getTokenFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
 }
 
