@@ -22,9 +22,9 @@ public class HistoryUtils<E extends HistoryEntity, R extends JpaRepository<E, St
     private final R repository;
     private final Class<E> historyClass;
 
-    public void saveHistory(String entityId, String entityCode, Class<?> clazz, Integer historyType, String content) {
+    public void saveHistory(String entityId, String entityCode, Class<?> clazz, Integer historyType, String content, Date actionDate) {
         try {
-            E historyEntity = getHistoryEntity(entityId, entityCode, clazz, historyType, content);
+            E historyEntity = getHistoryEntity(entityId, entityCode, clazz, historyType, content, actionDate);
             repository.save(historyEntity);
         } catch (Exception e) {
             logger.error("Failed to create history entity", e);
@@ -33,14 +33,15 @@ public class HistoryUtils<E extends HistoryEntity, R extends JpaRepository<E, St
     }
 
     public void saveHistoryWithChanges(String entityId, String entityCode, Class<?> changeClazz, Class<?> clazz,
-                                       Integer historyType, String content, Object changeObject, Object currentObject) {
+                                       Integer historyType, String content, Object changeObject, Object currentObject
+            , Date actionDate) {
         List<String> objectFieldNames = ReflectionUtils.getAllFieldNames(changeClazz);
         List<ChangeModel> _changes = new ArrayList<>();
 
         handleGetChanges(_changes, objectFieldNames, changeObject, currentObject, changeClazz, clazz, null);
 
         try {
-            E historyEntity = getHistoryEntity(entityId, entityCode, clazz, historyType, content);
+            E historyEntity = getHistoryEntity(entityId, entityCode, clazz, historyType, content, actionDate);
             historyEntity.set_changes(_changes);
             repository.save(historyEntity);
         } catch (Exception e) {
@@ -49,7 +50,7 @@ public class HistoryUtils<E extends HistoryEntity, R extends JpaRepository<E, St
         }
     }
 
-    private E getHistoryEntity(String entityId, String entityCode, Class<?> clazz, Integer historyType, String content)
+    private E getHistoryEntity(String entityId, String entityCode, Class<?> clazz, Integer historyType, String content, Date actionDate)
             throws InstantiationException, IllegalAccessException, java.lang.reflect.InvocationTargetException, NoSuchMethodException {
         E historyEntity = historyClass.getDeclaredConstructor().newInstance();
         historyEntity.setEntityId(entityId);
@@ -58,7 +59,7 @@ public class HistoryUtils<E extends HistoryEntity, R extends JpaRepository<E, St
         historyEntity.setType(historyType);
         historyEntity.setTypeName(HistoryType.historyTypeMap.get(historyType));
         historyEntity.setContent(content);
-        historyEntity.setCreatedDate(new Date());
+        historyEntity.setCreatedDate(actionDate);
         return historyEntity;
     }
 
