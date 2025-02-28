@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class PermissionUtils {
 
-    public static void hasPermission(List<String> roles) {
+    public static void hasRole(List<String> roles) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Optional<GrantedAuthority> found = Optional.empty();
@@ -27,7 +27,7 @@ public class PermissionUtils {
         }
     }
 
-    public static void hasPermission(String role) {
+    public static void hasRole(String role) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Optional<GrantedAuthority> found = Optional.empty();
