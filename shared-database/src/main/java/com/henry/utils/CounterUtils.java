@@ -16,7 +16,6 @@ import java.util.Date;
 public class CounterUtils {
     private final CounterRepository counterRepository;
 
-
     /**
      * @param clazz:     Aggregate.class
      * @param digitType: @{@link DigitType}

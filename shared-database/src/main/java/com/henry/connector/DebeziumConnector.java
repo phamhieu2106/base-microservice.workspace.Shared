@@ -1,6 +1,7 @@
 package com.henry.connector;
 
 import com.henry.base.BaseObjectLoggAble;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,9 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class DebeziumConnector extends BaseObjectLoggAble {
 
+    @Value("${henry.connector.url:}")
+    private String CONNECTION_URL;
+
     private final RestTemplate restTemplate;
 
     public DebeziumConnector(RestTemplate restTemplate) {
@@ -25,7 +29,7 @@ public class DebeziumConnector extends BaseObjectLoggAble {
 
 
     public void sendConnector(String connectorName, String configURL) {
-        String url = "http://localhost:8083/connectors";
+        String url = CONNECTION_URL;
         String connectorUrl = url + "/" + connectorName;
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(connectorUrl, String.class);
