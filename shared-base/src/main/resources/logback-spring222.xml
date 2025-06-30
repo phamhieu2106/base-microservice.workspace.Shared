@@ -11,6 +11,6 @@
 
     <!-- Điều chỉnh mức log cho các package -->
     <logger name="org.springframework" level="WARN"/>
-    <logger name="com.henry" level="DEBUG"/>
+    <logger name="com.base" level="DEBUG"/>
 
 </configuration>
