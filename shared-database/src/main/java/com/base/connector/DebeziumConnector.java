@@ -34,11 +34,10 @@ public class DebeziumConnector extends BaseObjectLoggAble {
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(connectorUrl, String.class);
             if (response.getStatusCode().is2xxSuccessful()) {
-                getLogger().info("Connector '{}' already exists. Skipping creation.", connectorName);
+                logger.info("Connector '{}' already exists. Skipping creation.", connectorName);
                 return;
             }
-        } catch (HttpClientErrorException.NotFound e) {
-            // Connector does not exist, continue to create it
+        } catch (HttpClientErrorException.NotFound ignored) {
         }
 
         String json;
@@ -47,7 +46,7 @@ public class DebeziumConnector extends BaseObjectLoggAble {
             byte[] data = FileCopyUtils.copyToByteArray(resource.getInputStream());
             json = new String(data, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            getLogger().error("Failed to load Debezium connector configuration", e);
+            logger.error("Failed to load Debezium connector configuration", e);
             return;
         }
 
@@ -57,9 +56,9 @@ public class DebeziumConnector extends BaseObjectLoggAble {
 
         try {
             String response = restTemplate.postForObject(url, requestEntity, String.class);
-            getLogger().info("Debezium connector created successfully: {}", response);
+            logger.info("Debezium connector created successfully: {}", response);
         } catch (HttpClientErrorException.Conflict e) {
-            getLogger().warn("Connector '{}' already exists. Skipping creation.", connectorName);
+            logger.warn("Connector '{}' already exists. Skipping creation.", connectorName);
         }
     }
 }
