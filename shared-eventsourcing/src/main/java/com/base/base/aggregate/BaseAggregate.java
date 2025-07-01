@@ -49,12 +49,8 @@ public class BaseAggregate<A extends DomainAggregate<A, C>, C extends Command, R
     }
 
     private A handleEvent(C command, A aggregate) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, JsonProcessingException {
-        Event event = (Event) aggregateClass
-                .getDeclaredMethod("process", command.getClass())
-                .invoke(aggregate, command);
-        aggregateClass
-                .getDeclaredMethod("apply", event.getClass())
-                .invoke(aggregate, event);
+        Event event = (Event) aggregateClass.getDeclaredMethod("process", command.getClass()).invoke(aggregate, command);
+        aggregateClass.getDeclaredMethod("apply", event.getClass()).invoke(aggregate, event);
         EventEntity eventEntity = EventEntity
                 .mapEventEntity(aggregate.getId(), ObjectMapperUtils.mapObjectToString(event), event.getClass().getSimpleName(),
                         String.valueOf(ReflectionUtils.getFieldValue(command, command.getClass(), "actionUser")));

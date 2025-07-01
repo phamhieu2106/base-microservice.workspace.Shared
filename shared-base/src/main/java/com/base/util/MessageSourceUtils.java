@@ -1,6 +1,7 @@
 package com.base.util;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,8 @@ public class MessageSourceUtils {
     private static final Locale LOCALE_EN = new Locale("en", "US");
     private static String locale = "vi";
 
-    public void setMessageSource(MessageSource messageSource, @Value("${henry.locale.message:vi}:vi") String locale) {
+    @Autowired
+    public void setMessageSource(MessageSource messageSource, @Value("${spring.messages.basename:vi}") String locale) {
         MessageSourceUtils.locale = locale;
         MessageSourceUtils.messageSource = messageSource;
     }
