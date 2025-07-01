@@ -11,13 +11,21 @@ import java.util.function.Supplier;
 
 @Component
 @RequiredArgsConstructor
-public class RedisUtils {
+public class CacheUtils {
 
-    private static final Logger log = LoggerFactory.getLogger(RedisUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(CacheUtils.class);
     private final StringRedisTemplate redisTemplate;
 
-    public <T> void storeKey(String key, Supplier<T> supplier) {
-        Boolean hasKey = redisTemplate.hasKey(key);
+    public boolean exists(String key) {
+        return redisTemplate.hasKey(key);
+    }
+
+    public void store(String key, String value) {
+        redisTemplate.opsForValue().set(key, value);
+    }
+
+    public <T> void storeToLockKey(String key, Supplier<T> supplier) {
+        Boolean hasKey = exists(key);
         if (Boolean.TRUE.equals(hasKey)) {
             supplier.get();
             return;
@@ -34,14 +42,14 @@ public class RedisUtils {
         supplier.get();
     }
 
-    public <T> void storeKey(String key, long timeLock, Supplier<T> supplier) {
-        Boolean hasKey = redisTemplate.hasKey(key);
+    public <T> void storeToLockKey(String key, long timeStore, Supplier<T> supplier) {
+        Boolean hasKey = exists(key);
         if (Boolean.TRUE.equals(hasKey)) {
             supplier.get();
             return;
         }
         try {
-            lock(key, timeLock, supplier);
+            lock(key, timeStore, supplier);
         } finally {
             try {
                 unlock(key);
@@ -52,9 +60,9 @@ public class RedisUtils {
         supplier.get();
     }
 
-    private <T> void lock(String key, long timeLock, Supplier<T> supplier) {
+    private <T> void lock(String key, long timeStore, Supplier<T> supplier) {
         try {
-            redisTemplate.opsForValue().set(key, supplier.toString(), timeLock, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(key, supplier.toString(), timeStore, TimeUnit.SECONDS);
         } catch (Exception e) {
             log.error(">>>> Try to lock error: {}", e.getMessage());
         }

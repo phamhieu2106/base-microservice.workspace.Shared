@@ -1,15 +1,15 @@
 package com.base.aggregate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.base.BaseObjectLoggAble;
 import com.base.common.Command;
 import com.base.common.Event;
+import com.base.event.EventEntity;
 import com.base.exception.ServiceException;
 import com.base.repository.EventRepository;
-import com.base.event.EventEntity;
 import com.base.util.GenerateUtils;
 import com.base.utils.ObjectMapperUtils;
 import com.base.utils.ReflectionUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +20,9 @@ import java.lang.reflect.InvocationTargetException;
 @Transactional
 public class BaseAggregate<A extends DomainAggregate<A, C>, C extends Command, R extends JpaRepository<A, String>> extends BaseObjectLoggAble {
 
+    private final Class<A> aggregateClass;
     private final R repository;
     private final EventRepository eventRepository;
-    private final Class<A> aggregateClass;
 
     public A save(C command) {
         try {

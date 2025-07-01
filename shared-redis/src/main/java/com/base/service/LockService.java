@@ -1,6 +1,6 @@
 package com.base.service;
 
-import com.base.RedisUtils;
+import com.base.CacheUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -10,18 +10,18 @@ import java.util.function.Supplier;
 @Service
 public class LockService {
 
-    private final RedisUtils redisUtils;
+    private final CacheUtils cacheUtils;
 
     @Autowired
-    public LockService(@Lazy RedisUtils redisUtils) {
-        this.redisUtils = redisUtils;
+    public LockService(@Lazy CacheUtils cacheUtils) {
+        this.cacheUtils = cacheUtils;
     }
 
     public <T> void lock(String key, Supplier<T> supplier) {
-        redisUtils.storeKey(key, supplier);
+        cacheUtils.storeToLockKey(key, supplier);
     }
 
     public <T> void lock(String key, long timeout, Supplier<T> supplier) {
-        redisUtils.storeKey(key, timeout, supplier);
+        cacheUtils.storeToLockKey(key, timeout, supplier);
     }
 }
