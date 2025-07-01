@@ -12,7 +12,6 @@ repositories {
 dependencies {
     implementation project(path: ":workspace:1-shared:shared-base")
     implementation project(path: ":workspace:1-shared:shared-database")
-    implementation project(path: ":workspace:1-shared:shared-eventsourcingbase")
 }
 
 test {

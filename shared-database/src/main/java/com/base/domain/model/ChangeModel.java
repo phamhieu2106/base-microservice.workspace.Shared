@@ -1,6 +1,6 @@
 package com.base.domain.model;
 
-import com.base.base.domain.BaseModel;
+import com.base.domain.BaseModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

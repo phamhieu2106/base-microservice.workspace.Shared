@@ -1,6 +1,6 @@
 package com.base.util;
 
-import com.base.base.exception.ServiceException;
+import com.base.exception.ServiceException;
 import com.base.constant.AuthErrorCode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

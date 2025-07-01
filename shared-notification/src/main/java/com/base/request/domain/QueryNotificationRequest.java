@@ -1,6 +1,6 @@
 package com.base.request.domain;
 
-import com.base.base.domain.request.BasePageSortRequest;
+import com.base.domain.request.BasePageSortRequest;
 import lombok.*;
 
 import java.io.Serializable;

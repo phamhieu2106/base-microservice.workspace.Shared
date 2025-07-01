@@ -1,6 +1,6 @@
 package com.base.connector;
 
-import com.base.base.BaseObjectLoggAble;
+import com.base.BaseObjectLoggAble;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;

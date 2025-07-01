@@ -1,6 +1,6 @@
 package com.base.util;
 
-import com.base.base.domain.request.BaseSort;
+import com.base.domain.request.BaseSort;
 import org.springframework.data.domain.*;
 
 import java.util.List;

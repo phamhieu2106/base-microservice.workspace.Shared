@@ -1,6 +1,6 @@
 package com.base.service;
 
-import com.base.base.BaseObjectLoggAble;
+import com.base.BaseObjectLoggAble;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
