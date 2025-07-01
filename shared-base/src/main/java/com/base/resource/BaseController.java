@@ -1,4 +1,4 @@
-package com.base.controller;
+package com.base.resource;
 
 import com.base.BaseObjectLoggAble;
 import lombok.Getter;

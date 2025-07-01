@@ -15,22 +15,15 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @EnableElasticsearchRepositories()
 @Configuration
 public class ElasticsearchConfig {
-    @Value("${henry.elasticsearch.host:localhost}")
-    private String HOST;
-    @Value("${henry.elasticsearch.port}:9200")
-    private Integer PORT;
 
-    @Bean
-    protected RestClient restClient() {
-        return RestClient
-                .builder(new HttpHost(HOST, PORT, null))
-                .build();
-    }
+    @Value("${spring.elasticsearch.uris:localhost:9200}")
+    private String ELASTICSEARCH_HOST;
 
     @Bean
     protected ElasticsearchTransport elasticsearchTransport() {
-        return new RestClientTransport(
-                restClient(), new JacksonJsonpMapper());
+        String[] hosts = ELASTICSEARCH_HOST.split(":");
+        return new RestClientTransport(RestClient.builder(new HttpHost(hosts[0], Integer.parseInt(hosts[1])))
+                .build(), new JacksonJsonpMapper());
     }
 
     @Bean

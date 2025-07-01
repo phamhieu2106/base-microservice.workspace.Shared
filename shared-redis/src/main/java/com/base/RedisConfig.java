@@ -1,5 +1,6 @@
 package com.base;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -14,16 +15,17 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
-import java.time.Duration;
-
 @Configuration
 @EnableRedisHttpSession()
 @EnableCaching
 public class RedisConfig {
 
+    @Value("${base.elasticsearch.host}")
+    private String HOST;
+    private Integer PORT;
+
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        // Configure as standalone Redis
         RedisStandaloneConfiguration standaloneConfig = new RedisStandaloneConfiguration("localhost", 6379);
         return new LettuceConnectionFactory(standaloneConfig);
     }
@@ -31,7 +33,6 @@ public class RedisConfig {
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(5)) // Set TTL for cache entries
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.string()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json()));
 
