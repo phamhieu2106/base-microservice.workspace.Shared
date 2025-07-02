@@ -20,13 +20,14 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableCaching
 public class RedisConfig {
 
-    @Value("${base.elasticsearch.host}")
+    @Value("${spring.data.redis.host}")
     private String HOST;
+    @Value("${spring.data.redis.port}")
     private Integer PORT;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        RedisStandaloneConfiguration standaloneConfig = new RedisStandaloneConfiguration("localhost", 6379);
+        RedisStandaloneConfiguration standaloneConfig = new RedisStandaloneConfiguration(HOST, PORT);
         return new LettuceConnectionFactory(standaloneConfig);
     }
 
