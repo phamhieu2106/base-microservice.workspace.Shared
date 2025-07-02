@@ -3,11 +3,9 @@ package com.base.exception.handler;
 import com.base.BaseObjectLoggAble;
 import com.base.domain.response.WrapResponse;
 import com.base.exception.ServiceException;
+import com.base.util.MessageSourceUtils;
 import lombok.RequiredArgsConstructor;
 import org.postgresql.util.PSQLException;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,16 +13,14 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @ControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler extends BaseObjectLoggAble {
-
-    private final MessageSource messageSource;
-
-    @Value("${spring.messages.basename:vi}")
-    private String MESSAGES_BASENAME;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
@@ -33,7 +29,7 @@ public class GlobalExceptionHandler extends BaseObjectLoggAble {
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             Map<String, String> errorDetails = new HashMap<>();
             errorDetails.put("field", error.getField());
-            errorDetails.put("reason", getMessage(error.getDefaultMessage()));
+            errorDetails.put("reason", MessageSourceUtils.getMessage(error.getDefaultMessage()));
             errors.add(errorDetails);
         }
         return WrapResponse.error(errors);
@@ -49,7 +45,7 @@ public class GlobalExceptionHandler extends BaseObjectLoggAble {
     @ExceptionHandler(ServiceException.class)
     @ResponseBody
     public WrapResponse<List<String>> handleServiceException(ServiceException ex) {
-        return WrapResponse.error(getMessage(ex.getErrorCode()));
+        return WrapResponse.error(MessageSourceUtils.getMessage(ex.getErrorCode()));
     }
 
     @ExceptionHandler(PSQLException.class)
@@ -59,11 +55,4 @@ public class GlobalExceptionHandler extends BaseObjectLoggAble {
         return WrapResponse.error(ex.getLocalizedMessage());
     }
 
-    private String getMessage(String errorCode) {
-        try {
-            return messageSource.getMessage(errorCode, null, Locale.forLanguageTag(MESSAGES_BASENAME));
-        } catch (NoSuchMessageException ex) {
-            return errorCode;
-        }
-    }
 }

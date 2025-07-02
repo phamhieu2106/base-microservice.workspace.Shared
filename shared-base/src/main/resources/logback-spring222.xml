@@ -1,16 +1,16 @@
 <configuration>
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) [%logger{36}] - %msg%n</pattern>
-        </encoder>
-    </appender>
+    <!--    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">-->
+    <!--        <encoder>-->
+    <!--            <pattern>%d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) [%logger{36}] - %msg%n</pattern>-->
+    <!--        </encoder>-->
+    <!--    </appender>-->
 
-    <root level="INFO"> <!-- Đặt mức log mặc định -->
-        <appender-ref ref="CONSOLE"/>
-    </root>
+    <!--    <root level="INFO"> &lt;!&ndash; Đặt mức log mặc định &ndash;&gt;-->
+    <!--        <appender-ref ref="CONSOLE"/>-->
+    <!--    </root>-->
 
-    <!-- Điều chỉnh mức log cho các package -->
-    <logger name="org.springframework" level="WARN"/>
-    <logger name="com.base" level="DEBUG"/>
+    <!--    &lt;!&ndash; Điều chỉnh mức log cho các package &ndash;&gt;-->
+    <!--    <logger name="org.springframework" level="WARN"/>-->
+    <!--    <logger name="com.base" level="DEBUG"/>-->
 
 </configuration>

@@ -11,21 +11,24 @@ import java.util.Locale;
 @Component
 @RequiredArgsConstructor
 public class MessageSourceUtils {
+
     private static MessageSource messageSource;
+    private static String messagesBasename;
 
     private static final Locale LOCALE_VN = new Locale("vi", "VN");
     private static final Locale LOCALE_EN = new Locale("en", "US");
-    private static String locale = "vi";
 
     @Autowired
-    public void setMessageSource(MessageSource messageSource, @Value("${spring.messages.basename:vi}") String locale) {
-        MessageSourceUtils.locale = locale;
+    public MessageSourceUtils(MessageSource messageSource,
+                              @Value("${spring.messages.basename:vi}") String messagesBasename) {
         MessageSourceUtils.messageSource = messageSource;
+        MessageSourceUtils.messagesBasename = messagesBasename;
     }
 
     public static String getMessage(String key, Object... args) {
         try {
-            return messageSource.getMessage(key, args, "en".equalsIgnoreCase(locale) ? LOCALE_EN : LOCALE_VN);
+            Locale locale = "en".equalsIgnoreCase(messagesBasename) ? LOCALE_EN : LOCALE_VN;
+            return messageSource.getMessage(key, args, locale);
         } catch (Exception ex) {
             return key;
         }
