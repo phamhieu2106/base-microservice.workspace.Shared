@@ -16,12 +16,16 @@ public class CacheUtils {
     private static final Logger log = LoggerFactory.getLogger(CacheUtils.class);
     private final StringRedisTemplate redisTemplate;
 
-    public boolean exists(String key) {
-        return redisTemplate.hasKey(key);
+    public boolean isSetMember(String key, String member) {
+        return Boolean.TRUE.equals(redisTemplate.opsForSet().isMember(key, member));
     }
 
-    public void store(String key, String value) {
-        redisTemplate.opsForValue().set(key, value);
+    public void addToSet(String key, String member) {
+        redisTemplate.opsForSet().add(key, member);
+    }
+
+    public boolean exists(String key) {
+        return redisTemplate.hasKey(key);
     }
 
     public <T> void storeToLockKey(String key, Supplier<T> supplier) {

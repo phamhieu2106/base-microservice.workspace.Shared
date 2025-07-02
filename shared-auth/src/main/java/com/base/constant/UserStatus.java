@@ -11,8 +11,7 @@ public class UserStatus {
     public static final int ACTIVE = 1;
     public static final int BLOCKED = -1;
 
-
-    private static final Map<Integer, String> map;
+    public static final Map<Integer, String> map;
 
     static {
         map = new HashMap<>();
