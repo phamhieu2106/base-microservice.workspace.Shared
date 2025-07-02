@@ -17,11 +17,11 @@ public class LockService {
         this.cacheUtils = cacheUtils;
     }
 
-    public <T> void lock(String key, Supplier<T> supplier) {
-        cacheUtils.storeToLockKey(key, supplier);
+    public <T> T lock(String key, Supplier<T> supplier) {
+        return cacheUtils.storeToLockKey(key, supplier);
     }
 
-    public <T> void lock(String key, long timeout, Supplier<T> supplier) {
-        cacheUtils.storeToLockKey(key, timeout, supplier);
+    public <T> T lock(String key, long timeout, Supplier<T> supplier) {
+        return cacheUtils.storeToLockKey(key, timeout, supplier);
     }
 }

@@ -27,7 +27,6 @@ public class DebeziumConnector extends BaseObjectLoggAble {
         this.restTemplate = restTemplate;
     }
 
-
     public void sendConnector(String connectorName, String configURL) {
         String url = CONNECTION_URL;
         String connectorUrl = url + "/" + connectorName;

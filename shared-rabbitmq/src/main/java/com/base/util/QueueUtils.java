@@ -20,8 +20,9 @@ public class QueueUtils {
     public static void sendQueue(String queueName, Object data) {
         try {
             rabbitMQService.sendQueue(queueName, data);
+            logger.info(">>>> Queue sent successfully with queueName={}, data={}", queueName, data);
         } catch (Exception e) {
-            logger.error(">>>>>>>>> SendQueue Error: {}", e.getMessage());
+            logger.error(">>>>>>>>> SendQueue Error: {}", e.getMessage(), e);
         }
     }
 }

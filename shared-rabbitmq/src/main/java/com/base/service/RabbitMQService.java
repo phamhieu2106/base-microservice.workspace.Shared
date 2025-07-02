@@ -11,10 +11,6 @@ public class RabbitMQService extends BaseObjectLoggAble {
     private final RabbitTemplate rabbitTemplate;
 
     public void sendQueue(String queueName, Object data) {
-        try {
-            rabbitTemplate.convertAndSend(queueName, data);
-        } catch (Exception e) {
-            logger.error(">>>>>>>>> SendQueue Error: {}", e.getMessage());
-        }
+        rabbitTemplate.convertAndSend(queueName, data);
     }
 }

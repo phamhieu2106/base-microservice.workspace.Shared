@@ -16,6 +16,10 @@ public class CacheUtils {
     private static final Logger log = LoggerFactory.getLogger(CacheUtils.class);
     private final StringRedisTemplate redisTemplate;
 
+    public String getValue(String key) {
+        return redisTemplate.opsForValue().get(key);
+    }
+
     public boolean isSetMember(String key, String member) {
         return Boolean.TRUE.equals(redisTemplate.opsForSet().isMember(key, member));
     }
@@ -24,15 +28,18 @@ public class CacheUtils {
         redisTemplate.opsForSet().add(key, member);
     }
 
+    public void storeKeyWithMinutes(String key, String value, long minutes) {
+        redisTemplate.opsForValue().set(key, value, minutes, TimeUnit.MINUTES);
+    }
+
     public boolean exists(String key) {
         return redisTemplate.hasKey(key);
     }
 
-    public <T> void storeToLockKey(String key, Supplier<T> supplier) {
+    public <T> T storeToLockKey(String key, Supplier<T> supplier) {
         Boolean hasKey = exists(key);
         if (Boolean.TRUE.equals(hasKey)) {
-            supplier.get();
-            return;
+            return supplier.get();
         }
         try {
             lock(key, 30L, supplier);
@@ -43,14 +50,13 @@ public class CacheUtils {
                 log.error(">>>> Try to unlock default lock func error: {} ", e.getMessage());
             }
         }
-        supplier.get();
+        return supplier.get();
     }
 
-    public <T> void storeToLockKey(String key, long timeStore, Supplier<T> supplier) {
+    public <T> T storeToLockKey(String key, long timeStore, Supplier<T> supplier) {
         Boolean hasKey = exists(key);
         if (Boolean.TRUE.equals(hasKey)) {
-            supplier.get();
-            return;
+            return supplier.get();
         }
         try {
             lock(key, timeStore, supplier);
@@ -61,7 +67,7 @@ public class CacheUtils {
                 log.error(">>>> Try to unlock with time lock func error: {} ", e.getMessage());
             }
         }
-        supplier.get();
+        return supplier.get();
     }
 
     private <T> void lock(String key, long timeStore, Supplier<T> supplier) {
