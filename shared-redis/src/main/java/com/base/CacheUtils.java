@@ -20,6 +20,10 @@ public class CacheUtils {
         return redisTemplate.opsForValue().get(key);
     }
 
+    public void removeKey(String key) {
+        redisTemplate.delete(key);
+    }
+
     public boolean isSetMember(String key, String member) {
         return Boolean.TRUE.equals(redisTemplate.opsForSet().isMember(key, member));
     }
