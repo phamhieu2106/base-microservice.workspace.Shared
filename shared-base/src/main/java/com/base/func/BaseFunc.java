@@ -18,7 +18,7 @@ public class BaseFunc extends BaseObjectLoggAble implements Serializable {
     @Autowired
     private LockService lockService;
 
-    @Autowired
+    @Autowired(required = false)
     private TransactionTemplate transactionTemplate;
 
     protected <T> void execInLock(String keyLock, Supplier<T> supplier) {
