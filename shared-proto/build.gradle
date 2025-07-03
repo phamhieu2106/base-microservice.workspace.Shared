@@ -9,13 +9,17 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
+    implementation 'io.grpc:grpc-services'
     implementation 'net.devh:grpc-spring-boot-starter:3.0.0.RELEASE'
 
     implementation 'io.grpc:grpc-netty-shaded:1.70.0'
     implementation 'io.grpc:grpc-protobuf:1.70.0'
     implementation 'io.grpc:grpc-stub:1.70.0'
-    implementation 'com.google.protobuf:protobuf-java:4.28.2'
+    implementation 'com.google.protobuf:protobuf-java:3.25.6'
+
+    testImplementation 'org.springframework.grpc:spring-grpc-test'
 }
 
 
