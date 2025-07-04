@@ -11,7 +11,7 @@ public class ObjectMapperUtils {
         return objectMapper.writeValueAsString(object);
     }
 
-    public static Object stringToMapObject(String string) throws JsonProcessingException {
-        return objectMapper.readValue(string, Object.class);
+    public static <O> O stringToMapObject(String string, Class<O> clazz) throws JsonProcessingException {
+        return objectMapper.readValue(string, clazz);
     }
 }

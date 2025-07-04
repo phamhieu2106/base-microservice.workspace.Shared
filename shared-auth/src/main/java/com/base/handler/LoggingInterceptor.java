@@ -1,6 +1,7 @@
 package com.base.handler;
 
 import com.base.BaseObjectLoggAble;
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
@@ -14,8 +15,11 @@ public class LoggingInterceptor extends BaseObjectLoggAble implements HandlerInt
 
     @Override
     public boolean preHandle(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (request.getDispatcherType() != DispatcherType.REQUEST) {
+            return true;
+        }
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         logger.info("{} '{}' - {}", auth.getName(), request.getMethod(), request.getRequestURI());
         return true;
     }

@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 import java.util.concurrent.ExecutorService;
 
 @Getter
-public class BaseController extends BaseObjectLoggAble {
+public class BaseResource extends BaseObjectLoggAble {
     @Autowired
     protected ApplicationContext applicationContext;
     @Autowired

@@ -45,6 +45,7 @@ public class GlobalExceptionHandler extends BaseObjectLoggAble {
     @ExceptionHandler(ServiceException.class)
     @ResponseBody
     public WrapResponse<List<String>> handleServiceException(ServiceException ex) {
+        logger.error(ex.getLocalizedMessage(), ex);
         return WrapResponse.error(MessageSourceUtils.getMessage(ex.getErrorCode()));
     }
 
