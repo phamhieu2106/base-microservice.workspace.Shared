@@ -11,6 +11,8 @@ repositories {
 
 
 dependencies {
+    implementation project(path: ":workspace:1-shared:shared-base")
+
     implementation 'io.grpc:grpc-services'
     implementation 'net.devh:grpc-spring-boot-starter:3.0.0.RELEASE'
 
