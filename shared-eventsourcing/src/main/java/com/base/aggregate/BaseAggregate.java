@@ -44,7 +44,7 @@ public class BaseAggregate<A extends DomainAggregate<A, C>, C extends Command, R
             return handleEvent(command, aggregate);
         } catch (Exception e) {
             getLogger().error(e.getMessage());
-            throw new ServiceException("EVENT_SOURCING.NOT_FOUND_AGGREGATE ", entityId);
+            throw new ServiceException("EVENT_SOURCING.NOT_FOUND_AGGREGATE + ", entityId, e);
         }
     }
 
