@@ -36,6 +36,10 @@ public class CacheUtils {
         redisTemplate.opsForValue().set(key, value, minutes, TimeUnit.MINUTES);
     }
 
+    public void storeKeyWithHours(String key, String value, long hours) {
+        redisTemplate.opsForValue().set(key, value, hours, TimeUnit.HOURS);
+    }
+
     public boolean exists(String key) {
         return redisTemplate.hasKey(key);
     }
