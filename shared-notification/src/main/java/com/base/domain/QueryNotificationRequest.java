@@ -1,4 +1,4 @@
-package com.base.request.domain;
+package com.base.domain;
 
 import com.base.domain.request.BasePageSortRequest;
 import lombok.*;

@@ -1,4 +1,4 @@
-package com.base.request.constant;
+package com.base.constant;
 
 import java.util.HashMap;
 import java.util.Map;

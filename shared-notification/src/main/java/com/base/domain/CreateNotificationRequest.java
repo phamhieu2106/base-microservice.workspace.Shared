@@ -1,4 +1,4 @@
-package com.base.request.domain;
+package com.base.domain;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
