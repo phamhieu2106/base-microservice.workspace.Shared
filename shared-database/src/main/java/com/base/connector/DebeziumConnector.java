@@ -2,18 +2,13 @@ package com.base.connector;
 
 import com.base.BaseObjectLoggAble;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 @Component
 public class DebeziumConnector extends BaseObjectLoggAble {
@@ -27,7 +22,7 @@ public class DebeziumConnector extends BaseObjectLoggAble {
         this.restTemplate = restTemplate;
     }
 
-    public void sendConnector(String connectorName, String configURL) {
+    public void sendConnector(String connectorName, String json) {
         String url = CONNECTION_URL;
         String connectorUrl = url + "/" + connectorName;
         try {
@@ -39,15 +34,6 @@ public class DebeziumConnector extends BaseObjectLoggAble {
         } catch (HttpClientErrorException.NotFound ignored) {
         }
 
-        String json;
-        try {
-            ClassPathResource resource = new ClassPathResource(configURL);
-            byte[] data = FileCopyUtils.copyToByteArray(resource.getInputStream());
-            json = new String(data, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            logger.error("Failed to load Debezium connector configuration", e);
-            return;
-        }
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
